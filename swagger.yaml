@@ -1,0 +1,90 @@
+openapi: 3.0.0
+info:
+  title: Auth API
+  version: 1.0.0
+  description: API documentation for user authentication including login, registration, and password reset.
+paths:
+  /login:
+    post:
+      summary: User login
+      description: Authenticates a user and returns a token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: "Stavr"
+                password:
+                  type: string
+                  example: "abc583228"
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Invalid username or password"
+
+  /register:
+    post:
+      summary: User registration
+      description: Registers a new user in the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: "Alice"
+                email:
+                  type: string
+                  example: "Alice515@gmail.com"
+                password:
+                  type: string
+                  example: "klava12345"
+      responses:
+        '201':
+          description: User successfully registered
+        '400':
+          description: Bad request (e.g., username already exists)
+
+  /reset-password:
+    post:
+      summary: Reset password
+      description: Sends a password reset link to the user's email.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "Oleg@gmail.com"
+      responses:
+        '200':
+          description: Password reset email sent
+        '404':
+          description: User with this email not found
